@@ -63,6 +63,7 @@ function updateTotalMonthly() {
   //check if total > 20000. if yes, change #totalMonthlyDiv background color to red
   if(totalMonthly > 20000) {
     $('#totalMonthlyDiv').css('background-color', 'red');
+  } else {
+    $('#totalMonthlyDiv').css('background-color', '');
   }//end if statement
 }//end updateTotalMonthly
-
