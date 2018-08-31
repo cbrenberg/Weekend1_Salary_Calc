@@ -6,10 +6,12 @@ function onReady() {
   console.log('jQuery')
   //click listener for submit button, runs addEmployee
   $('#submitButton').on('click', addEmployee)
-  //click listener on delete button, runs deleteEmployee
+  //click listener on .deleteButton class within tbody, runs deleteEmployee
+  $('#employeeList').on('click', '.deleteButton', deleteEmployee)
 }//end onReady
 
 //add new employee from input values and clears inputs
+//validate inputs with if statement
 function addEmployee() {
   let firstName = $('#firstNameIn').val();
   let lastName = $('#lastNameIn').val();
@@ -24,11 +26,17 @@ function addEmployee() {
         <td>${employeeId}</td>
         <td>${title}</td>
         <td>${salary}</td>
+        <td><button class="deleteButton">Remove</button></td>
       </tr>`
   );//end append row
   $('input').val('');
 }// end addEmployee
 
+//deletes selected row, re-runs updateTotalMonthly
+function deleteEmployee() {
+  $(this).closest('tr').remove();
+  
+}
 
 //updates value of total monthly salary by looping through all salaries
 function updateTotalMonthly() {
@@ -36,3 +44,4 @@ function updateTotalMonthly() {
   //for loop
 
 }//end updateTotalMonthly
+
