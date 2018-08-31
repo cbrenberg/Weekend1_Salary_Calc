@@ -11,16 +11,17 @@ function onReady() {
 }//end onReady
 
 //add new employee from input values and clears inputs
-//validate inputs with if statement
 function addEmployee() {
   let firstName = $('#firstNameIn').val();
   let lastName = $('#lastNameIn').val();
   let employeeId = $('#idIn').val();
   let title = $('#titleIn').val();
   let salary = $('#salaryIn').val();
-  //select table body and append new row
-  $('#employeeList').append(
-    `<tr>
+  //validate inputs with if statement
+  if (firstName && lastName && employeeId && title && salary) {
+    //select table body and append new row
+    $('#employeeList').append(
+      `<tr>
         <td>${firstName}</td>
         <td>${lastName}</td>
         <td>${employeeId}</td>
@@ -28,20 +29,21 @@ function addEmployee() {
         <td>${salary}</td>
         <td><button class="deleteButton">Remove</button></td>
       </tr>`
-  );//end append row
-  $('input').val('');
+    );//end append row
+    $('input').val('');
+  }//end if statement
 }// end addEmployee
 
 //deletes selected row, re-runs updateTotalMonthly
 function deleteEmployee() {
   $(this).closest('tr').remove();
-  
+
 }
 
 //updates value of total monthly salary by looping through all salaries
 function updateTotalMonthly() {
   let totalMonthly = 0;
-  //for loop
+  //for loop on nth-child of each tr?
 
 }//end updateTotalMonthly
 
