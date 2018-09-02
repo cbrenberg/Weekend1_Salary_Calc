@@ -20,7 +20,6 @@ class Employee {
   }
 }
 
-
 function onReady() {
   console.log('jQuery')
   //click listener for submit button, runs addEmployee
@@ -70,7 +69,8 @@ function updateEmployeeTable() {
 }// end update EmployeeTable
 
 //deletes selected row, re-runs updateTotalMonthly
-//also should remove employee from array
+//also find index of selected employee and remove from employees array
+//then update total monthly
 function deleteEmployee() {
   let rowId = $(this).closest('tr').attr('id');
   console.log('row id:', rowId);
