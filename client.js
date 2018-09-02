@@ -33,7 +33,7 @@ function addEmployee() {
         <td>${lastName}</td>
         <td>${employeeId}</td>
         <td>${title}</td>
-        <td class="employeeSalary">${formatter.format(salary)}</td>
+        <td class="employeeSalary">${salary}</td>
         <td class="button"><button class="deleteButton">Remove</button></td>
       </tr>`
     );//end append row
