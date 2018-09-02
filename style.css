@@ -3,7 +3,7 @@
   margin: auto;
   background-color: gray;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
+  color: ghostwhite;
 }
 
 tr:nth-child(even){
@@ -46,6 +46,7 @@ th {
   width: 100%;
   border: 1px black;
   margin: .1em;
+  min-width: 100px;
 }
 
 #submitButton {
@@ -54,5 +55,18 @@ th {
 
 #inputDiv {
   display: flex;
+  /* flex-wrap: wrap; */
   justify-content: space-between;
+
+}
+
+@media (max-width: 950px) {
+  #inputDiv {
+    width: 50%;
+    flex-wrap: wrap;
+  }
+  #submitButton, input {
+  width: 100%;
+}
+
 }

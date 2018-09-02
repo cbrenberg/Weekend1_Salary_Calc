@@ -8,6 +8,19 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
+let employees = [];
+
+class Employee {
+  constructor(firstName, lastName, employeeId, title, salary) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.employeeId = employeeId;
+    this.title = title;
+    this.salary = salary;
+  }
+}
+
+
 function onReady() {
   console.log('jQuery')
   //click listener for submit button, runs addEmployee
@@ -26,28 +39,44 @@ function addEmployee() {
   let salary = $('#salaryIn').val();
   //validate inputs with if statement
   if (firstName && lastName && employeeId && title && salary) {
-    //select table body and append new row
+    employees.push(new Employee(firstName, lastName, employeeId, title, salary))
+    console.log(employees);
+  }//end if statement
+  $('input').val('');
+  updateEmployeeTable();
+}//end addEmployee
+
+function updateEmployeeTable() {
+  //clear table before refreshing
+  $('#employeeList').empty();
+  //for each employee object, append new row to table
+  for (employee of employees) {
+    console.log(employee.firstName)
     $('#employeeList').append(
-      `<tr>
-        <td>${firstName}</td>
-        <td>${lastName}</td>
-        <td>${employeeId}</td>
-        <td>${title}</td>
-        <td class="employeeSalary">${salary}</td>
+      `<tr id="${employee.employeeId}">
+        <td>${employee.firstName}</td>
+        <td>${employee.lastName}</td>
+        <td>${employee.employeeId}</td>
+        <td>${employee.title}</td>
+        <td class="employeeSalary">${employee.salary}</td>
         <td class="button"><button class="deleteButton">Remove</button></td>
       </tr>`
     );//end append row
-    //------------------------------------
-    //change salary to formatter.format(salary) in table above after adding employee class
-    //------------------------------------
-    $('input').val('');
-  }//end if statement
+  }//end for loop
+  //------------------------------------
+  //change salary to formatter.format(salary) in table above after adding employee class
+  //------------------------------------
   updateTotalMonthly();
-}// end addEmployee
+}// end update EmployeeTable
 
 //deletes selected row, re-runs updateTotalMonthly
+//also should remove employee from array
 function deleteEmployee() {
-  $(this).closest('tr').remove();
+  let rowId = $(this).closest('tr').attr('id');
+  console.log('row id:', rowId);
+  employees.splice(employees.findIndex(function (employee) { return employee.employeeId === rowId; }), 1);
+  console.log(employees);
+  updateEmployeeTable();
   updateTotalMonthly();
 }
 
@@ -58,16 +87,16 @@ function updateTotalMonthly() {
   let totalMonthly = 0;
   //select all td of class .employeeSalary
   //add each value to totalMonthly counter variable
-  $('.employeeSalary').each(function() {
-    totalMonthly += Number($(this).text());    
+  $('.employeeSalary').each(function () {
+    totalMonthly += Number($(this).text());
   });//end .each loop
   //divide by 12 to get monthly value
-  totalMonthly = totalMonthly/12
+  totalMonthly = totalMonthly / 12
   console.log(totalMonthly);
   //display total monthly value on DOM
   $('#totalMonthlyDiv').html(`<h2>Total Monthly: ${formatter.format(totalMonthly)}</h2>`);
   //check if total > 20000. if yes, change #totalMonthlyDiv background color to red
-  if(totalMonthly > 20000) {
+  if (totalMonthly > 20000) {
     $('#totalMonthlyDiv').css('background-color', 'red');
   } else {
     $('#totalMonthlyDiv').css('background-color', '');
