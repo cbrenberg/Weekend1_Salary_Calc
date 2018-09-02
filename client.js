@@ -33,10 +33,13 @@ function addEmployee() {
         <td>${lastName}</td>
         <td>${employeeId}</td>
         <td>${title}</td>
-        <td class="employeeSalary">${salary}</td>
-        <td><button class="deleteButton">Remove</button></td>
+        <td class="employeeSalary">${formatter.format(salary)}</td>
+        <td class="button"><button class="deleteButton">Remove</button></td>
       </tr>`
     );//end append row
+    //------------------------------------
+    //change salary to formatter.format(salary) in table above after adding employee class
+    //------------------------------------
     $('input').val('');
   }//end if statement
   updateTotalMonthly();
@@ -50,6 +53,7 @@ function deleteEmployee() {
 
 //updates value of total monthly salary by looping through all salaries
 //refreshes totalMonthlyDiv with updated value of totalMonthly
+//should iterate through array of objects instead of table elements
 function updateTotalMonthly() {
   let totalMonthly = 0;
   //select all td of class .employeeSalary
@@ -57,6 +61,8 @@ function updateTotalMonthly() {
   $('.employeeSalary').each(function() {
     totalMonthly += Number($(this).text());    
   });//end .each loop
+  //divide by 12 to get monthly value
+  totalMonthly = totalMonthly/12
   console.log(totalMonthly);
   //display total monthly value on DOM
   $('#totalMonthlyDiv').html(`<h2>Total Monthly: ${formatter.format(totalMonthly)}</h2>`);
