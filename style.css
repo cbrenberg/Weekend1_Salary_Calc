@@ -62,8 +62,9 @@ th {
 
 @media (max-width: 950px) {
   #inputDiv {
-    width: 50%;
+    width: 80%;
     flex-wrap: wrap;
+    margin: auto;
   }
   #submitButton, input {
   width: 100%;

@@ -1,5 +1,3 @@
-console.log('client.js');
-
 $(document).ready(onReady)
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -23,9 +21,10 @@ class Employee {
 function onReady() {
   console.log('jQuery')
   //click listener for submit button, runs addEmployee
-  $('#submitButton').on('click', addEmployee)
+  $('#submitButton').on('click', addEmployee);
   //click listener on .deleteButton class within tbody, runs deleteEmployee
-  $('#employeeList').on('click', '.deleteButton', deleteEmployee)
+  $('#employeeList').on('click', '.deleteButton', deleteEmployee);
+  //update total on DOM
   updateTotalMonthly();
 }//end onReady
 
@@ -41,7 +40,12 @@ function addEmployee() {
     employees.push(new Employee(firstName, lastName, employeeId, title, salary))
     console.log(employees);
   }//end if statement
+  else {
+    alert("One or more inputs are empty. Please add missing information.");
+    return;
+  };
   $('input').val('');
+  //update table on DOM
   updateEmployeeTable();
 }//end addEmployee
 
@@ -57,14 +61,12 @@ function updateEmployeeTable() {
         <td>${employee.lastName}</td>
         <td>${employee.employeeId}</td>
         <td>${employee.title}</td>
-        <td class="employeeSalary">${employee.salary}</td>
+        <td class="employeeSalary">${formatter.format(employee.salary)}</td>
         <td class="button"><button class="deleteButton">Remove</button></td>
       </tr>`
     );//end append row
   }//end for loop
-  //------------------------------------
-  //change salary to formatter.format(salary) in table above after adding employee class
-  //------------------------------------
+  //update total on DOM
   updateTotalMonthly();
 }// end update EmployeeTable
 
@@ -85,15 +87,13 @@ function deleteEmployee() {
 //should iterate through array of objects instead of table elements
 function updateTotalMonthly() {
   let totalMonthly = 0;
-  //select all td of class .employeeSalary
-  //add each value to totalMonthly counter variable
-  $('.employeeSalary').each(function () {
-    totalMonthly += Number($(this).text());
-  });//end .each loop
-  //divide by 12 to get monthly value
-  totalMonthly = totalMonthly / 12
-  console.log(totalMonthly);
-  //display total monthly value on DOM
+  for (employee of employees) {
+    totalMonthly += Number(employee.salary);
+  }
+  console.log('Total Monthly:', totalMonthly);
+  //divide totalMonthly by 12
+  totalMonthly = totalMonthly/12;
+  //display totalMonthly on DOM
   $('#totalMonthlyDiv').html(`<h2>Total Monthly: ${formatter.format(totalMonthly)}</h2>`);
   //check if total > 20000. if yes, change #totalMonthlyDiv background color to red
   if (totalMonthly > 20000) {
@@ -102,3 +102,8 @@ function updateTotalMonthly() {
     $('#totalMonthlyDiv').css('background-color', '');
   }//end if statement
 }//end updateTotalMonthly
+
+
+//future improvements: 
+//validate employeeID input all must be unique values
+//informational alerts when inputs are empty/invalid
