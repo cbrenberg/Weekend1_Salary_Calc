@@ -19,7 +19,6 @@ class Employee {
 }
 
 function onReady() {
-  console.log('jQuery')
   //click listener for submit button, runs addEmployee
   $('#submitButton').on('click', addEmployee);
   //click listener on .deleteButton class within tbody, runs deleteEmployee
@@ -28,7 +27,7 @@ function onReady() {
   updateTotalMonthly();
 }//end onReady
 
-//add new employee from input values and clears inputs
+//check for empty inputs, create new employee from inputs, push to employees array, and clear inputs
 function addEmployee() {
   let firstName = $('#firstNameIn').val();
   let lastName = $('#lastNameIn').val();
@@ -38,12 +37,11 @@ function addEmployee() {
   //validate inputs with if statement
   if (firstName && lastName && employeeId && title && salary) {
     employees.push(new Employee(firstName, lastName, employeeId, title, salary))
-    console.log(employees);
-  }//end if statement
+  }//end push new employee
   else {
     alert("One or more inputs are empty. Please add missing information.");
     return;
-  };
+  }//end empty input
   $('input').val('');
   //update table on DOM
   updateEmployeeTable();
@@ -54,7 +52,6 @@ function updateEmployeeTable() {
   $('#employeeList').empty();
   //for each employee object, append new row to table
   for (employee of employees) {
-    console.log(employee.firstName)
     $('#employeeList').append(
       `<tr id="${employee.employeeId}">
         <td>${employee.firstName}</td>
@@ -70,27 +67,22 @@ function updateEmployeeTable() {
   updateTotalMonthly();
 }// end update EmployeeTable
 
-//deletes selected row, re-runs updateTotalMonthly
-//also find index of selected employee and remove from employees array
-//then update total monthly
+//deletes selected employee from array of employees by finding its index, then re-runs updateTotalMonthly
 function deleteEmployee() {
   let rowId = $(this).closest('tr').attr('id');
-  console.log('row id:', rowId);
-  employees.splice(employees.findIndex(function (employee) { return employee.employeeId === rowId; }), 1);
-  console.log(employees);
+  let matchingEmployee = employees.findIndex(function (employee) { return employee.employeeId === rowId; });
+  employees.splice(matchingEmployee, 1);
   updateEmployeeTable();
   updateTotalMonthly();
 }
 
 //updates value of total monthly salary by looping through all salaries
 //refreshes totalMonthlyDiv with updated value of totalMonthly
-//should iterate through array of objects instead of table elements
 function updateTotalMonthly() {
   let totalMonthly = 0;
   for (employee of employees) {
     totalMonthly += Number(employee.salary);
   }
-  console.log('Total Monthly:', totalMonthly);
   //divide totalMonthly by 12
   totalMonthly = totalMonthly/12;
   //display totalMonthly on DOM
@@ -105,5 +97,4 @@ function updateTotalMonthly() {
 
 
 //future improvements: 
-//validate employeeID input all must be unique values
-//informational alerts when inputs are empty/invalid
+//validate employeeID: all should be unique values
